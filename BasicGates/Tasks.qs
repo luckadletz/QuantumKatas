@@ -37,7 +37,6 @@ namespace Quantum.Kata.BasicGates {
     // to compute their adjoint and controlled variants automatically.
     // Since each task is solved using only intrinsic gates, you should not need to put any special effort in this.
 
-
     // Task 1.1. State flip: |0⟩ to |1⟩ and vice versa
     // Input: A qubit in state |ψ⟩ = α |0⟩ + β |1⟩.
     // Goal:  Change the state of the qubit to α |1⟩ + β |0⟩.
@@ -48,11 +47,8 @@ namespace Quantum.Kata.BasicGates {
     // returns the qubit to the original state.
     operation StateFlip (q : Qubit) : Unit is Adj+Ctl {
         // The Pauli X gate will change the |0⟩ state to the |1⟩ state and vice versa.
-        // Type X(q);
-        // Then rebuild the project and rerun the tests - T11_StateFlip_Test should now pass!
-
-        // ...
-    }
+        X(q);
+    } // PASS
 
 
     // Task 1.2. Basis change: |0⟩ to |+⟩ and |1⟩ to |-⟩ (and vice versa)
@@ -64,16 +60,16 @@ namespace Quantum.Kata.BasicGates {
     // Note:  |+⟩ and |-⟩ form a different basis for single-qubit states, called X basis.
     // |0⟩ and |1⟩ are called Z basis.
     operation BasisChange (q : Qubit) : Unit is Adj+Ctl {
-        // ...
-    }
+        H(q);
+    } // PASS
 
 
     // Task 1.3. Sign flip: |+⟩ to |-⟩ and vice versa.
     // Input: A qubit in state |ψ⟩ = α |0⟩ + β |1⟩.
     // Goal:  Change the qubit state to α |0⟩ - β |1⟩ (flip the sign of |1⟩ component of the superposition).
     operation SignFlip (q : Qubit) : Unit is Adj+Ctl {
-        // ...
-    }
+        Z(q);
+    } // PASS
 
 
     // Task 1.4*. Amplitude change: |0⟩ to cos(alpha)*|0⟩ + sin(alpha)*|1⟩.
@@ -87,16 +83,19 @@ namespace Quantum.Kata.BasicGates {
     // This is the first operation in this kata that is not self-adjoint, 
     // i.e., applying it for a second time does not return the qubit to the original state. 
     operation AmplitudeChange (alpha : Double, q : Qubit) : Unit is Adj+Ctl {
-        // ...
-    }
+        Ry(2.0 * alpha, q);
+        // I understand we need to rotate about an axis, but I would have thought z, not y
+        // But where does the factor of 2.0 come from?
+        // As far as I can tell, it's just a convention of the formulae to use theta/2.
+    } // PASS
 
 
     // Task 1.5. Phase flip
     // Input: A qubit in state |ψ⟩ = α |0⟩ + β |1⟩.
     // Goal:  Change the qubit state to α |0⟩ + iβ |1⟩ (flip the phase of |1⟩ component of the superposition).
     operation PhaseFlip (q : Qubit) : Unit is Adj+Ctl {
-        // ...
-    }
+        S(q);
+    } // PASS
 
 
     // Task 1.6*. Phase change
@@ -108,8 +107,10 @@ namespace Quantum.Kata.BasicGates {
     //        If the qubit is in state |1⟩, change its state to exp(i*alpha)|1⟩.
     //        If the qubit is in superposition, change its state according to the effect on basis vectors.
     operation PhaseChange (alpha : Double, q : Qubit) : Unit is Adj+Ctl {
-        // ...
-    }
+        R1(alpha, q);
+        // I understand the rotation about the ket-1 state, (but I had to look this one up)
+        // Not sure how that not change the ket-0 state?
+    } // PASS
 
     // Task 1.7. Global phase change
     // Input: A qubit in state β|0⟩ + γ|1⟩.
@@ -122,31 +123,38 @@ namespace Quantum.Kata.BasicGates {
     // to observe the global phase it introduces. This is used 
     // in later katas as part of more complicated tasks.
     operation GlobalPhaseChange (q: Qubit) : Unit is Adj+Ctl {
-        // ...
-    }
+        R(PauliI, 2.0 * PI(), q);
+        // Also had to look this up, but I think I understand
+        // I don't understand what the "controlled version" bit means or why this is useful
+    } // PASS
 
 
     // Task 1.8. Bell state change - 1
     // Input: Two entangled qubits in Bell state |Φ⁺⟩ = (|00⟩ + |11⟩) / sqrt(2).
     // Goal:  Change the two-qubit state to |Φ⁻⟩ = (|00⟩ - |11⟩) / sqrt(2).
     operation BellStateChange1 (qs : Qubit[]) : Unit is Adj+Ctl {
-        // ...
-    }
+        Z(qs[0]);
+        // Z(qs[1]);
+        // I originally transformed both, do I only need to transform one
+        // because they are entangled?
+    } // PASS
 
 
     // Task 1.9. Bell state change - 2
     // Input: Two entangled qubits in Bell state |Φ⁺⟩ = (|00⟩ + |11⟩) / sqrt(2).
     // Goal:  Change the two-qubit state to |Ψ⁺⟩ = (|01⟩ + |10⟩) / sqrt(2).
     operation BellStateChange2 (qs : Qubit[]) : Unit is Adj+Ctl {
-        // ...
-    }
+        X(qs[0]);
+    } // PASS
 
 
     // Task 1.10. Bell state change - 3
     // Input: Two entangled qubits in Bell state |Φ⁺⟩ = (|00⟩ + |11⟩) / sqrt(2).
     // Goal:  Change the two-qubit state to |Ψ⁻⟩ = (|01⟩ - |10⟩) / sqrt(2).
     operation BellStateChange3 (qs : Qubit[]) : Unit is Adj+Ctl {
-        // ...
+        X(qs[0]);
+        Z(qs[0]);
+        // I originally had Y(qs[0]), but that adds a global phase!
     }
 
 
