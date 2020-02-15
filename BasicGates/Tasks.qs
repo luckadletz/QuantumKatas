@@ -4,6 +4,7 @@
 namespace Quantum.Kata.BasicGates {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Canon;
 
 
     //////////////////////////////////////////////////////////////////
@@ -171,8 +172,10 @@ namespace Quantum.Kata.BasicGates {
     // the resulting two-qubit state can not be represented as a tensor product
     // of the states of individual qubits any longer; thus the qubits become entangled.
     operation TwoQubitGate1 (qs : Qubit[]) : Unit is Adj {
-        // ...
-    }
+        CNOT(qs[0], qs[1]); 
+        // Had to use reference impl here, why do they become entangled if the second bit is |0⟩ ?
+        // I may be flipping the control / target bits in my head? - I AM, control bit is 
+    } // PASS
 
 
     // Task 2.2. Two-qubit gate - 2
@@ -182,8 +185,16 @@ namespace Quantum.Kata.BasicGates {
     // Note that while the starting state can be represented as a tensor product of single-qubit states,
     // the resulting two-qubit state can not be represented in such a way.
     operation TwoQubitGate2 (qs : Qubit[]) : Unit is Adj {
-        // ...
-    }
+        CZ(qs[0], qs[1]);
+        // Had to import Microsoft.Quantum.Canon, but this is just CNOT Z instead of X
+        // Controlled Z([qs[0]],qs[1]) would also work? 
+            // what is "Controlled" here? Why must the first arg be an array?
+        // as an exercise, try to express the solution using several controlled Pauli gates.
+        // CNOT(qs[0], qs[1]);
+        // CNOT(qs[1], qs[0]);
+        // CNOT(qs[0], qs[1]);
+        // Interesting, not sure if I get this bit
+    } // PASS
 
 
     // Task 2.3. Two-qubit gate - 3
@@ -194,8 +205,8 @@ namespace Quantum.Kata.BasicGates {
         // Hint: this task can be solved using one intrinsic gate;
         // as an exercise, try to express the solution using several
         // (possibly controlled) Pauli gates.
-        // ...
-    }
+        SWAP(qs[0], qs[1]);
+    } // PASS
 
 
     // Task 2.4. Toffoli gate
@@ -205,8 +216,8 @@ namespace Quantum.Kata.BasicGates {
     //        i.e., change the three-qubit state to
     //        α|000⟩ + β|001⟩ + γ|010⟩ + δ|011⟩ + ε|100⟩ + ζ|101⟩ + θ|110⟩ + η|111⟩.
     operation ToffoliGate (qs : Qubit[]) : Unit is Adj {
-        // ...
-    }
+        CCNOT(qs[0], qs[1], qs[2]);
+    } // PASS 
 
 
     // Task 2.5. Fredkin gate
@@ -215,7 +226,8 @@ namespace Quantum.Kata.BasicGates {
     // Goal:  Swap the states of second and third qubit if and only if the state of the first qubit is |1⟩:
     //        α|000⟩ + β|001⟩ + γ|010⟩ + δ|011⟩ + ε|100⟩ + η|101⟩ + ζ|110⟩ + θ|111⟩.
     operation FredkinGate (qs : Qubit[]) : Unit is Adj {
-        // ...
-    }
+        Controlled SWAP([qs[0]], (qs[1], qs[2]));
+        // Why must second params be in a tuple??
+    } // PASS
 
 }
