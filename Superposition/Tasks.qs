@@ -33,23 +33,19 @@ namespace Quantum.Kata.Superposition {
     // Goal: prepare a |+⟩ state on this qubit (|+⟩ = (|0⟩ + |1⟩) / sqrt(2)).
     operation PlusState (q : Qubit) : Unit {
         // Hadamard gate H will convert |0⟩ state to |+⟩ state.
-        // Type the following: H(q);
-        // Then rebuild the project and rerun the tests - T01_PlusState_Test should now pass!
-
-        // ...
-    }
-
+        H(q);
+    }   // PASS
 
     // Task 2. Minus state
     // Input: a qubit in the |0⟩ state.
     // Goal: prepare a |-⟩ state on this qubit (|-⟩ = (|0⟩ - |1⟩) / sqrt(2)).
     operation MinusState (q : Qubit) : Unit {
         // In this task, as well as in all subsequent ones, you have to come up with the solution yourself.
+        H(q);
+        Z(q);
+    }   // PASS
 
-        // ...
-    }
-
-
+ 
     // Task 3*. Unequal superposition
     // Inputs:
     //      1) a qubit in the |0⟩ state.
@@ -58,20 +54,19 @@ namespace Quantum.Kata.Superposition {
     operation UnequalSuperposition (q : Qubit, alpha : Double) : Unit {
         // Hint: Experiment with rotation gates from the Microsoft.Quantum.Intrinsic namespace.
         // Note that all rotation operators rotate the state by _half_ of its angle argument.
-
-        // ...
-    }
+        Ry(alpha * 2.0, q);
+    }   // PASS
 
 
     // Task 4. Superposition of all basis vectors on two qubits
     // Input: two qubits in |00⟩ state (stored in an array of length 2).
     // Goal:  create the following state on these qubits: (|00⟩ + |01⟩ + |10⟩ + |11⟩) / 2.
     operation AllBasisVectors_TwoQubits (qs : Qubit[]) : Unit {
-        // The following lines enforce the constraints on the input that you are given.
-        // You don't need to modify them. Feel free to remove them, this won't cause your code to fail.
+        // enforce the constraints on the input
         EqualityFactI(Length(qs), 2, "The array should have exactly 2 qubits.");
 
-        // ...
+        H(qs[0]);
+        H(qs[1]);
     }
 
 
@@ -79,8 +74,7 @@ namespace Quantum.Kata.Superposition {
     // Input: two qubits in |00⟩ state (stored in an array of length 2).
     // Goal:  create the following state on these qubits: (|00⟩ + i*|01⟩ - |10⟩ - i*|11⟩) / 2.
     operation AllBasisVectorsWithPhases_TwoQubits (qs : Qubit[]) : Unit {
-        // The following lines enforce the constraints on the input that you are given.
-        // You don't need to modify them. Feel free to remove them, this won't cause your code to fail.
+        // enforce the constraints on the input
         EqualityFactI(Length(qs), 2, "The array should have exactly 2 qubits.");
 
         // Hint: Is this state separable?
